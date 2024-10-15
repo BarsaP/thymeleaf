@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KBC Game - Host Screen</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .question {
+            margin-top: 50px;
+            font-size: 24px;
+        }
+        .qr-code {
+            margin-top: 20px;
+        }
+        .message {
+            margin-top: 30px;
+            font-size: 20px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>KBC Game</h1>
+    <div class="question" id="question-text">Question will appear here...</div>
+    <div class="qr-code" id="qrcode"></div>
+    <div class="message" id="winner-message"></div>
+
+    <script>
+        //Generating the QR code
+        let qrUrl = 'http://localhost:8080/join';  // URL where players will join
+        let qrcode = new QRCode(document.getElementById("qrcode"), qrUrl);
+
+        // WebSocket for real-time communication with server
+        let socket = new WebSocket("ws://localhost:8080/game");
+
+        // When a correct answer is received, display the winner's name and move to next question
+        socket.onmessage = function (event) {
+            let data = JSON.parse(event.data);
+            if (data.type === 'CORRECT_ANSWER') {
+                document.getElementById("winner-message").textContent = `Congratulations ${data.playerName}!`;
+                // Load the next question
+                setTimeout(() => {
+                    loadNextQuestion();
+                }, 3000);
+            }
+        };
+
+        // Function to load next question from the server
+        function loadNextQuestion() {
+            fetch("/api/next-question")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("question-text").textContent = data.question;
+                    document.getElementById("winner-message").textContent = "";
+                });
+        }
+
+        // Load the first question when the page is ready
+        window.onload = loadNextQuestion;
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KBC Game - Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .question {
+            margin-top: 50px;
+            font-size: 24px;
+        }
+        .answer-input {
+            margin-top: 20px;
+        }
+        .error-message {
+            margin-top: 30px;
+            font-size: 18px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>KBC Game</h1>
+    <div class="question" id="question-text">Waiting for question...</div>
+
+    <div class="answer-input">
+        <input type="text" id="answer" placeholder="Enter your answer">
+        <button onclick="submitAnswer()">Submit</button>
+    </div>
+
+    <div class="error-message" id="error-message"></div>
+
+    <script>
+        let playerName = prompt("Enter your name:");
+        let socket = new WebSocket("ws://localhost:8080/game");
+
+        // Send the answer to the server when submitted
+        function submitAnswer() {
+            let answer = document.getElementById("answer").value;
+            socket.send(JSON.stringify({
+                playerName: playerName,
+                answer: answer
+            }));
+        }
+
+        // Display question and handle incorrect answers
+        socket.onmessage = function (event) {
+            let data = JSON.parse(event.data);
+            if (data.type === 'QUESTION') {
+                document.getElementById("question-text").textContent = data.question;
+                document.getElementById("error-message").textContent = '';
+            } else if (data.type === 'INCORRECT_ANSWER') {
+                document.getElementById("error-message").textContent = 'Wrong answer. Try again.';
+            }
+        };
+    </script>
+</body>
+</html>

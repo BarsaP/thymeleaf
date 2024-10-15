@@ -1,0 +1,19 @@
+body {
+	font-family: Arial, sans-serif;
+	text-align: center;
+}
+
+.question {
+	margin-top: 50px;
+	font-size: 24px;
+}
+
+.qr-code {
+	margin-top: 20px;
+}
+
+.message {
+	margin-top: 30px;
+	font-size: 20px;
+	color: green;
+}
