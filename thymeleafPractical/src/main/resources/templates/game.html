@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Game page</title>
+</head>
+<body>
+
+    <h1>Welcome to the KBC Game</h1>
+    
+    <h2>Question: <span th:text="${question.question}"></span></h2>
+
+    <form action="/submit-answer" method="post">
+        <div th:each="option, iterStat : ${question.options}">
+            <input type="radio" th:id="'answer' + ${iterStat.index}" name="answer" th:value="${option}">
+            <label th:for="'answer' + ${iterStat.index}" th:text="${option}"></label>
+        </div>
+        <!-- Add more answers as needed -->
+
+        <button type="submit">Submit Answer</button>
+        
+        <div th:if="${error}">
+            <p style="color: red;" th:text="${error}"></p>
+        </div>
+    </form>
+
+</body>
+</html>

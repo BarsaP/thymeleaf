@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join the Game</title>
+    <link rel="stylesheet" href="/path/to/your/css/styles.css"> 
+</head>
+<body>
+
+    <h1>Welcome to the KBC Game</h1>
+
+    <form action="/submit-player" method="post">
+        <div>
+            <label for="playerName">Enter Your Name:</label>
+            <input type="text" id="playerName" name="playerName" required>
+        </div>
+        <button type="submit">Join the Game</button>
+    </form>
+
+   
+    <script src="/path/to/your/js/scripts.js"></script>
+
+</body>
+</html>

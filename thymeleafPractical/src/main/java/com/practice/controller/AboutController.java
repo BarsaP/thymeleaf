@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AboutController {
 	@RequestMapping("/about")
     public String aboutpage() {
-        return "about";  // Returns the view (home.html or home.jsp depending on your setup)
+        return "about";  // 
     }
 	
 	@RequestMapping("/player")
     public String playerpage() {
-        return "player";  // Returns the view (home.html or home.jsp depending on your setup)
+        return "player";  // 
     }
 	
 	@RequestMapping("/join")
     public String joinpage() {
-        return "joinr";  // Returns the view (home.html or home.jsp depending on your setup)
+        return "joinr";  //
     }
 	
 }
